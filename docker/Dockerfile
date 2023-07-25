@@ -1,10 +1,10 @@
-ARG FROM=debian:buster-slim
+ARG FROM=debian:bookworm-slim
 FROM ${FROM}
 
 ARG DEBIAN_FRONTEND=noninteractive
-ARG GIT_VERSION="2.26.2"
+ARG GIT_VERSION="2.41.0"
 ARG GH_RUNNER_VERSION
-ARG DOCKER_COMPOSE_VERSION="1.27.4"
+ARG DOCKER_COMPOSE_VERSION="2.20.2"
 
 ENV RUNNER_NAME=""
 ENV RUNNER_WORK_DIRECTORY="_work"
@@ -16,16 +16,16 @@ ENV GITHUB_ACCESS_TOKEN=""
 ENV AGENT_TOOLSDIRECTORY=/opt/hostedtoolcache
 
 # Labels.
-LABEL maintainer="me@tcardonne.fr" \
+LABEL maintainer="git@otran.to" \
     org.label-schema.schema-version="1.0" \
     org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.vcs-ref=$VCS_REF \
-    org.label-schema.name="tcardonne/github-runner" \
+    org.label-schema.name="otrantolimited/github-runner" \
     org.label-schema.description="Dockerized GitHub Actions runner." \
-    org.label-schema.url="https://github.com/tcardonne/docker-github-runner" \
-    org.label-schema.vcs-url="https://github.com/tcardonne/docker-github-runner" \
-    org.label-schema.vendor="Thomas Cardonne" \
-    org.label-schema.docker.cmd="docker run -it tcardonne/github-runner:latest"
+    org.label-schema.url="https://github.com/otrantolimited/docker-github-runner" \
+    org.label-schema.vcs-url="https://github.com/otrantolimited/docker-github-runner" \
+    org.label-schema.vendor="Otranto" \
+    org.label-schema.docker.cmd="docker run -it otrantolimited/github-runner:latest"
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     apt-get install -y \
