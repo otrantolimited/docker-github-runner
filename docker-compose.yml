@@ -4,9 +4,9 @@ services:
     runner:
       image: otrantolimited/github-runner:latest
       environment:
-        RUNNER_NAME: "my-runner"
+        RUNNER_NAME: "mac-runner"
         RUNNER_REPOSITORY_URL: ${RUNNER_REPOSITORY_URL}
-        #RUNNER_ORGANIZATION_URL: ${RUNNER_ORGANIZATION_URL}
+        RUNNER_ORGANIZATION_URL: ${RUNNER_ORGANIZATION_URL}
         GITHUB_ACCESS_TOKEN: ${GITHUB_ACCESS_TOKEN}
       volumes:
         - /var/run/docker.sock:/var/run/docker.sock

@@ -1,5 +1,4 @@
-ARG FROM=debian:bookworm-slim
-FROM ${FROM}
+FROM debian:bookworm-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG GIT_VERSION="2.41.0"
@@ -74,10 +73,12 @@ RUN mkdir -p /home/runner ${AGENT_TOOLSDIRECTORY}
 
 WORKDIR /home/runner
 
+ARG TARGETPLATFORM="linux/arm64"
 RUN GH_RUNNER_VERSION=${GH_RUNNER_VERSION:-$(curl --silent "https://api.github.com/repos/actions/runner/releases/latest" | grep tag_name | sed -E 's/.*"v([^"]+)".*/\1/')} \
-    && curl -L -O https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz \
-    && tar -zxf actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz \
-    && rm -f actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz \
+    && if [ "$TARGETPLATFORM" = "linux/amd64" ]; then ARCHITECTURE=x64; elif [ "$TARGETPLATFORM" = "linux/arm/v7" ]; then ARCHITECTURE=arm; elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then ARCHITECTURE=arm64; else ARCHITECTURE=x64; fi \
+    && curl -L -O https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-linux-${ARCHITECTURE}-${GH_RUNNER_VERSION}.tar.gz \
+    && tar -zxf actions-runner-linux-${ARCHITECTURE}-${GH_RUNNER_VERSION}.tar.gz \
+    && rm -f actions-runner-linux-${ARCHITECTURE}-${GH_RUNNER_VERSION}.tar.gz \
     && ./bin/installdependencies.sh \
     && chown -R root: /home/runner \
     && rm -rf /var/lib/apt/lists/* \
